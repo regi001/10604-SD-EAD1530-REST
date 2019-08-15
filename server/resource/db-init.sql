@@ -4,7 +4,9 @@ create table if not exists tb_pedido (
   dt_entrega timestamp,
   nr_tempopedido integer not null,
   vl_pedido decimal(9,2) not null,
-  cd_cliente integer not null
+  cd_cliente integer not null,
+  en_tamanho     STRING (20),
+   en_sabor       STRING (20)
 );
 
 create table if not exists tb_cliente (

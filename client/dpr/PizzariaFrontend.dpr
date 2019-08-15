@@ -8,7 +8,8 @@ uses
   UFrmPrincipal in '..\pas\ui\UFrmPrincipal.pas' {Form1},
   UEfetuarPedidoDTOImpl in '..\..\shared\pas\dto\UEfetuarPedidoDTOImpl.pas',
   UPizzaSaborEnum in '..\..\shared\pas\enum\UPizzaSaborEnum.pas',
-  UPizzaTamanhoEnum in '..\..\shared\pas\enum\UPizzaTamanhoEnum.pas';
+  UPizzaTamanhoEnum in '..\..\shared\pas\enum\UPizzaTamanhoEnum.pas',
+  UPedidoRetornoDTOImpl1 in '..\..\shared\pas\dto\UPedidoRetornoDTOImpl1.pas';
 
 {$R *.res}
 

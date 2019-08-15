@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, UPizzaSaborEnum,UPedidoRetornoDTOImpl1, UPizzaTamanhoEnum;
 
 type
   TForm1 = class(TForm)
@@ -19,7 +19,10 @@ type
     mmRetornoWebService: TMemo;
     edtEnderecoBackend: TLabeledEdit;
     edtPortaBackend: TLabeledEdit;
+    btnConsultarPedido: TButton;
     procedure Button1Click(Sender: TObject);
+    procedure btnConsultarPedidoClick(Sender: TObject);
+
   private
     { Private-Deklarationen }
   public
@@ -29,13 +32,53 @@ type
 var
   Form1: TForm1;
 
+
+
 implementation
 
 uses
-  Rest.JSON, MVCFramework.RESTClient, UEfetuarPedidoDTOImpl, System.Rtti,
-  UPizzaSaborEnum, UPizzaTamanhoEnum;
+  Rest.JSON, MVCFramework.RESTClient, UEfetuarPedidoDTOImpl, System.Rtti;
 
 {$R *.dfm}
+
+
+procedure TForm1.btnConsultarPedidoClick(Sender: TObject);
+var
+  Clt: TRestClient;
+  oDTO : TPedidoRetornoDTO;
+  oRestReponse : IRESTResponse;
+begin
+  if (edtDocumentoCliente.Text = EmptyStr) OR (edtEnderecoBackend.Text = EmptyStr) or (edtPortaBackend.Text = EmptyStr) then
+    exit;
+
+  Clt := MVCFramework.RESTClient.TRestClient.Create(edtEnderecoBackend.Text,
+  StrToIntDef(edtPortaBackend.Text, 80), nil);
+
+  oRestReponse := Clt.doGET( '/consultarPedido', [edtDocumentoCliente.Text],nil);
+
+
+  oDTO := TJson.JsonToObject<TPedidoRetornoDTO>(oRestReponse.BodyAsString);
+  mmRetornoWebService.Clear;
+
+  mmRetornoWebService.Lines.Add('Tamanho da Pizza: '+ Copy(
+                                                            TRttiEnumerationType.GetName<TPizzaTamanhoEnum>(oDTO.PizzaTamanho),
+                                                            3,
+                                                            length(TRttiEnumerationType.GetName<TPizzaTamanhoEnum>(oDTO.PizzaTamanho))
+                                                          )
+                                );
+  mmRetornoWebService.Lines.Add('Sabor da Pizza  : '+ Copy(
+                                                            TRttiEnumerationType.GetName<TPizzaSaborEnum>(oDTO.PizzaSabor),
+                                                            3,
+                                                            length(TRttiEnumerationType.GetName<TPizzaSaborEnum>(oDTO.PizzaSabor))
+                                                          )
+                                );
+
+  mmRetornoWebService.Lines.Add('Preço da Pizza  : '+ FormatCurr('R$0.00',oDTO.ValorTotalPedido));
+
+  mmRetornoWebService.Lines.Add('Tempo de Preparo: '+ oDTO.TempoPreparo.ToString + ' minutos.');
+end;
+
+
 
 procedure TForm1.Button1Click(Sender: TObject);
 var
