@@ -11,13 +11,13 @@ type
   [MVCNameCase(ncLowerCase)]
   TPedidoRetornoDTO = class(TRemotable)
   private
+
     FPizzaTamanho: TPizzaTamanhoEnum;
     FPizzaSabor: TPizzaSaborEnum;
     FValorTotalPedido: Currency;
     FTempoPreparo: Integer;
   published
-    property PizzaTamanho: TPizzaTamanhoEnum read FPizzaTamanho
-      write FPizzaTamanho;
+    property PizzaTamanho: TPizzaTamanhoEnum read FPizzaTamanho write FPizzaTamanho;
     property PizzaSabor: TPizzaSaborEnum read FPizzaSabor write FPizzaSabor;
     property ValorTotalPedido: Currency read FValorTotalPedido
       write FValorTotalPedido;

@@ -60,22 +60,22 @@ begin
   oDTO := TJson.JsonToObject<TPedidoRetornoDTO>(oRestReponse.BodyAsString);
   mmRetornoWebService.Clear;
 
-  mmRetornoWebService.Lines.Add('Tamanho da Pizza: '+ Copy(
+  mmRetornoWebService.Lines.Add('Tamanho da Pizza= '+ Copy(
                                                             TRttiEnumerationType.GetName<TPizzaTamanhoEnum>(oDTO.PizzaTamanho),
                                                             3,
                                                             length(TRttiEnumerationType.GetName<TPizzaTamanhoEnum>(oDTO.PizzaTamanho))
                                                           )
                                 );
-  mmRetornoWebService.Lines.Add('Sabor da Pizza  : '+ Copy(
+  mmRetornoWebService.Lines.Add('Sabor da Pizza  = '+ Copy(
                                                             TRttiEnumerationType.GetName<TPizzaSaborEnum>(oDTO.PizzaSabor),
                                                             3,
                                                             length(TRttiEnumerationType.GetName<TPizzaSaborEnum>(oDTO.PizzaSabor))
                                                           )
                                 );
 
-  mmRetornoWebService.Lines.Add('Preço da Pizza  : '+ FormatCurr('R$0.00',oDTO.ValorTotalPedido));
+  mmRetornoWebService.Lines.Add('Preço da Pizza  = '+ FormatCurr('R$ 0.00',oDTO.ValorTotalPedido));
 
-  mmRetornoWebService.Lines.Add('Tempo de Preparo: '+ oDTO.TempoPreparo.ToString + ' minutos.');
+  mmRetornoWebService.Lines.Add('Tempo de Preparo = '+ oDTO.TempoPreparo.ToString + ' minutos.');
 end;
 
 
